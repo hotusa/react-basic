@@ -1,0 +1,20 @@
+body {
+  padding: 1rem;
+}
+pre {margin-bottom: 0 !important;}
+
+
+.theme-default .list-group-item.active {
+  color: white !important;
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+}
+
+.theme-dark .list-group-item.active,
+.theme-dark .btn-primary,
+.theme-dark .btn-primary:active,
+.theme-dark .btn-primary:hover{
+  color: white !important;
+  background-color: #333 !important;
+  border-color: #333 !important;
+}
