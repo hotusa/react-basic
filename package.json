@@ -12,9 +12,12 @@
     "i18next-xhr-backend": "^3.2.2",
     "jquery": "^3.4.1",
     "react": "^16.11.0",
+    "react-beforeunload": "^2.1.0",
+    "react-date-picker": "^7.8.2",
     "react-dom": "^16.11.0",
     "react-i18next": "^11.1.0",
     "react-igmweb": "^1.0.79",
+    "react-lodash": "^0.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0"
   },
