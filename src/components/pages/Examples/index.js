@@ -1,67 +1,75 @@
-import React, {useContext, useState} from 'react'
+import React, {useContext, useState, useRef} from 'react'
 import HOC from "../../HOC";
-import {faArrowCircleLeft, faCalendar, faExternalLinkAlt} from "@fortawesome/free-solid-svg-icons";
+import {faArrowCircleLeft} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {Link} from "react-router-dom";
 import {MainAppContext} from "../../../context";
-import TabReactContext from "./tabs/TabReactContext";
 import {Trans, useTranslation} from "react-i18next";
-import TabFontAwesome from "./tabs/TabFontAwesome";
 import es from "./i18n/es";
 import en from "./i18n/en";
-import TabReactAxios from "./tabs/TabReactAxios";
-import TabCalendar from "./tabs/TabCalendar";
-import TabBeforeunload from "./tabs/TabBeforeunload";
+import OnBeforeUnLoad from "../../general/OnBeforeUnLoad";
+import axios from "axios";
 
 function Examples() {
 
-    let {stateMainApp} = useContext(MainAppContext);
-    const [tab, setTab] = useState(0)
+    let {stateMainApp, dispatchMainApp} = useContext(MainAppContext);
 
     const {i18n} = useTranslation();
 
     i18n.addResourceBundle('es', 'examples', es)
     i18n.addResourceBundle('en', 'examples', en)
 
+    const [dataOld, setDataOld] = useState({name: ''})
+    const [dataNew, setDataNew] = useState({name: ''})
+
+    const isChange = useRef(false)
+
+    const changeTheme = (e) => {
+        dispatchMainApp({type: "SET_COLOR", payload: e.target.value});
+    }
+
+    const sendGet = () => {
+        axios.get('https://pokeapi.co/api/v2/pokemon/ditto/')
+            .then(result => {
+                if (result.status === 200) {
+                    console.log(result.data)
+                }
+            })
+    }
+
     return (
-        <div className={`theme-${stateMainApp.color}`}>
-            <div className="form-row align-items-center mb-3">
-                <div className="col-auto">
-                    <Link to={"/"} className="btn btn-sm btn-primary"><FontAwesomeIcon icon={faArrowCircleLeft}/> <Trans
-                        defaults={'back'}/></Link>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-sm-3">
-                    <div className="list-group">
-                        <div className={`list-group-item list-group-item-action ${tab === 0 ? 'active' : ''}`}
-                             onClick={() => setTab(0)}>React context
-                        </div>
-                        <div className={`list-group-item list-group-item-action ${tab === 1 ? 'active' : ''}`}
-                             onClick={() => setTab(1)}>Font Awesome
-                        </div>
-                        <div className={`list-group-item list-group-item-action ${tab === 2 ? 'active' : ''}`}
-                             onClick={() => setTab(2)}>React Axios
-                        </div>
-                        <div className={`list-group-item list-group-item-action ${tab === 3 ? 'active' : ''}`}
-                             onClick={() => setTab(3)}>Calendar
-                        </div>
-                        <div className={`list-group-item list-group-item-action ${tab === 4 ? 'active' : ''}`}
-                             onClick={() => setTab(4)}>Beforeunload
-                        </div>
+        <OnBeforeUnLoad _old={dataOld} _new={dataNew}>
+            <div className={`theme-${stateMainApp.color}`}>
+                <div className="form-row align-items-center mb-3">
+                    <div className="col-auto">
+                        <Link to={"/"} className="btn btn-sm btn-primary"><FontAwesomeIcon icon={faArrowCircleLeft}
+                                                                                           className="mr-1"/>
+                            <Trans
+                                defaults={'back'}/></Link>
                     </div>
                 </div>
-                <div className="col-sm-9">
 
-                    {tab === 0 ? <TabReactContext/> : null}
-                    {tab === 1 ? <TabFontAwesome/> : null}
-                    {tab === 2 ? <TabReactAxios/> : null}
-                    {tab === 3 ? <TabCalendar/> : null}
-                    {tab === 4 ? <TabBeforeunload/> : null}
+                <form className="form-inline">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Escriba su nombre"
+                        name="name"
+                        value={dataNew.name}
+                        onChange={(e) => {
+                            setDataNew({...dataNew, name: e.target.value})
+                            isChange.current = true
+                        }}/>
 
-                </div>
+                    <button type="button" className={`btn btn-${isChange.current ? 'primary':'secondary'} ml-1`} onClick={() => {
+                        setDataOld(dataNew)
+                        isChange.current = false
+                    }}>Guardar
+                    </button>
+                </form>
+
             </div>
-        </div>
+        </OnBeforeUnLoad>
     )
 }
 

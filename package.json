@@ -13,7 +13,6 @@
     "jquery": "^3.4.1",
     "react": "^16.11.0",
     "react-beforeunload": "^2.1.0",
-    "react-date-picker": "^7.8.2",
     "react-dom": "^16.11.0",
     "react-i18next": "^11.1.0",
     "react-igmweb": "^1.0.79",
