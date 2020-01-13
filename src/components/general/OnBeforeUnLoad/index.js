@@ -1,65 +1,52 @@
 import React, {useEffect, useRef} from 'react'
 import {Prompt} from "react-router-dom";
-import {IsEqual} from "react-lodash";
+import _ from 'lodash'
 
-const OnBeforeUnLoad = ({children, _old, _new}) => {
+const OnBeforeUnLoad = ({
+                            children, dataOld, dataNew, skipFields = [],
+                            message = `Hay cambios sin guardar.\n¿Seguro que quiere salir de esta página?`
+                        }) => {
 
     const _dataOld = useRef(null)
     const _dataNew = useRef(null)
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        _dataOld.current = _old
-        _dataNew.current = _new
+        _dataOld.current = dataOld
+        _dataNew.current = dataNew
 
-    }, [_old, _new])
+    }, [dataOld, dataNew])
 
-    useEffect(()=>{
+    useEffect(() => {
         window.addEventListener('beforeunload', function (e) {
 
-            let isDifferent = validate()
-            console.log('isDifferent', isDifferent)
-            if (isDifferent) {
+            let status = isEqualObjects()
+            if (!status) {
                 // Hay cambios
                 e.preventDefault();
                 e.returnValue = '';
-            } else {
-                // Si no hay cambios
-                return;
             }
 
         });
 
-    },[])
+    }, [])
 
-    const validate = () => {
-        console.log('entra validate')
-        console.log(_dataOld, _dataNew)
-        return IsEqual({
-            value: _dataOld,
-            other: _dataNew,
-            yes: () => {
-                console.log('yes')
-                return false
-            },
-            no: () => {
-                return true
-            }
-        })
+    const isEqualObjects = () => {
+
+        // skip fields
+        let obj_old = _.omit(_dataOld.current, skipFields)
+        let obj_new = _.omit(_dataNew.current, skipFields)
+
+        return _.isEqual(obj_old, obj_new)
 
     }
 
     return (
         <div>
-            <Prompt message={()=>{
-                console.log('entra message')
-                let isDifferent = validate()
-                if (isDifferent) {
-                    return `Are you sure you want to leave?`
-                } else {
-                    return true
-                }
-            }} />{children}
+            <Prompt when={!isEqualObjects()}
+                    message={message}
+            />
+            {children}
         </div>
     )
 

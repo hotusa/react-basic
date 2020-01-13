@@ -11,6 +11,7 @@
     "i18next": "^19.0.0",
     "i18next-xhr-backend": "^3.2.2",
     "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
     "react": "^16.11.0",
     "react-beforeunload": "^2.1.0",
     "react-dom": "^16.11.0",
