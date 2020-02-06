@@ -1,7 +1,8 @@
 import React, {useReducer} from "react"
 
 export const initValueMainApp = {
-    color: 'default'
+    color: 'default',
+    user: null
 }
 
 const MainAppContext = React.createContext(initValueMainApp)
@@ -12,6 +13,8 @@ let reducer = (state, action) => {
             return initValueMainApp;
         case "SET_COLOR":
             return {...state, ...{color: action.payload}}
+        case "SET_USER":
+            return {...state, ...{user: action.payload}}
         default:
             return {...state}
     }

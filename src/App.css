@@ -1,13 +1,6 @@
-body {
-  padding: 1rem;
-}
-pre {margin-bottom: 0 !important;}
 
-
-.theme-default .list-group-item.active {
-  color: white !important;
-  background-color: #007bff !important;
-  border-color: #007bff !important;
+body .theme-dark {
+  background: #333333 !important;
 }
 
 .theme-dark .list-group-item.active,
