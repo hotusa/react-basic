@@ -7,6 +7,8 @@ import {HashRouter, Route, Switch} from "react-router-dom";
 import Login from "./pages/Login";
 import {MainAppProvider} from "./context";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
+import Registro from "./pages/Registro";
 
 
 ReactDOM.render(
@@ -14,8 +16,10 @@ ReactDOM.render(
         <Suspense fallback={""}>
             <HashRouter>
                 <Switch>
-                    <Route exact path={"/login"} component={Login}/>
+                    <Route exact path={"/Registro"} component={Registro}/>
+                    <Route exact path={"/Login"} component={Login}/>
                     <Route exact path={"/404"} component={NotFound}/>
+                    <Route exact path={"/Dashboard"} component={Dashboard}/>
                     <Route path={"/"} component={App}/>
                 </Switch>
             </HashRouter>

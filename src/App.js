@@ -1,29 +1,15 @@
-import React, {useContext, Suspense, lazy} from 'react';
+import React from 'react';
 import './App.css'
-import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
-import Navbar from "./components/Navbar";
-import {MainAppContext} from "./context";
+import {Link} from "react-router-dom";
 
-const Home = lazy(() => import('./pages/Home'))
-const Examples = lazy(() => import('./pages/Examples'))
 
 function App() {
 
-    let {stateMainApp} = useContext(MainAppContext);
-
     return (
-        <div className={`theme-${stateMainApp.color}`}>
-            <HashRouter>
-                <Navbar/>
-                <hr/>
-                <Suspense fallback={""}>
-                    <Switch>
-                        <Route exact path={"/"} component={Home}/>
-                        <Route exact path={"/examples"} component={Examples}/>
-                        <Route path={"*"} render={() => <Redirect to='/404'/>}/>
-                    </Switch>
-                </Suspense>
-            </HashRouter>
+        <div>
+            <p><Link to={"/Registro"}>Registro</Link></p>
+            <p><Link to={"/Login"}>Login</Link></p>
+            <p><Link to={"/Dashboard"}>Dashboard</Link></p>
         </div>
     )
 }
