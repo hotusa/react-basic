@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,7 +11,9 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
+
+import api from '../../api'
 
 function Copyright() {
     return (
@@ -57,17 +59,57 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function Login() {
+export default function Login(props) {
+
     const classes = useStyles();
+
+    useEffect(()=>{
+
+        localStorage.clear()
+
+    },[])
+
+    const getLogin = () => {
+
+        api.sendByPassServlet(
+            {
+                "ByPass": "usuario",
+                "Servicio": "usuarios",
+                "Metodo": "GetLoginCRM",
+                "Tipo": "",
+                "Entrada": {
+                    "username": "jmarin",
+                    "password": "jmarin1",
+                    "user_session_id": "",
+                    "recordarUsuario": false
+                },
+                "Id": "",
+                "URL": "",
+                "recuerdame_id": ""
+            }
+        ).then(result => {
+
+            if (result.status === 200 && result.data.Status === 'OK') {
+                const token = result.data.Id
+                localStorage.setItem('token', token)
+                props.history.push('/');
+            }
+
+        }).catch(error => {
+            console.log(error)
+        })
+
+    }
+
 
     return (
         <Grid container component="main" className={classes.root}>
-            <CssBaseline />
-            <Grid item xs={false} sm={4} md={7} className={classes.image} />
+            <CssBaseline/>
+            <Grid item xs={false} sm={4} md={7} className={classes.image}/>
             <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                 <div className={classes.paper}>
                     <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
+                        <LockOutlinedIcon/>
                     </Avatar>
                     <Typography component="h1" variant="h5">
                         Sign in
@@ -96,15 +138,16 @@ export default function Login() {
                             autoComplete="current-password"
                         />
                         <FormControlLabel
-                            control={<Checkbox value="remember" color="primary" />}
+                            control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
                         />
                         <Button
-                            type="submit"
+                            type="button"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={getLogin}
                         >
                             Sign In
                         </Button>
@@ -121,7 +164,7 @@ export default function Login() {
                             </Grid>
                         </Grid>
                         <Box mt={5}>
-                            <Copyright />
+                            <Copyright/>
                         </Box>
                     </form>
                 </div>

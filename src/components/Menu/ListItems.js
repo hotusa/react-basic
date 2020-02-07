@@ -2,23 +2,21 @@ import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
-import {ExpandLess, ExpandMore, StarBorder} from "@material-ui/icons";
+import {ExpandLess, ExpandMore} from "@material-ui/icons";
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import {makeStyles} from "@material-ui/core/styles";
 
 
 const useStyles = makeStyles(theme => ({
     nested: {
-        paddingLeft: theme.spacing(2),
+        paddingLeft: theme.spacing(9),
     },
 }));
 
@@ -76,9 +74,6 @@ export default function ListItems ({isOpen}) {
             <Collapse in={open && isOpen} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
                     <ListItem button className={classes.nested}>
-                        <ListItemIcon>
-                            <StarBorder />
-                        </ListItemIcon>
                         <ListItemText primary="Starred" />
                     </ListItem>
                 </List>

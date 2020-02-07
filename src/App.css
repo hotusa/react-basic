@@ -1,13 +1,9 @@
-
-body .theme-dark {
-  background: #333333 !important;
+.bg-success {
+    background-color: #4caf50 !important;
 }
-
-.theme-dark .list-group-item.active,
-.theme-dark .btn-primary,
-.theme-dark .btn-primary:active,
-.theme-dark .btn-primary:hover{
-  color: white !important;
-  background-color: #333 !important;
-  border-color: #333 !important;
+.bg-warning {
+    background-color: #ff9800 !important;
+}
+.bg-error {
+    background-color: #f44336 !important;
 }

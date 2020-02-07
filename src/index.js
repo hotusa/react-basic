@@ -7,7 +7,6 @@ import {HashRouter, Route, Switch} from "react-router-dom";
 import Login from "./pages/Login";
 import {MainAppProvider} from "./context";
 import NotFound from "./pages/NotFound";
-import Dashboard from "./pages/Dashboard";
 import Registro from "./pages/Registro";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -23,6 +22,18 @@ const theme = createMuiTheme({
         },
         secondary: {
             main: '#dc004e',
+        },
+        error: {
+            main: '#f44336',
+        },
+        warning: {
+            main: '#ff9800',
+        },
+        info: {
+            main: '#2196f3',
+        },
+        success: {
+            main: '#4caf50',
         },
         // Used by `getContrastText()` to maximize the contrast between
         // the background and the text.
@@ -43,7 +54,6 @@ ReactDOM.render(
                         <Route exact path={"/Registro"} component={Registro}/>
                         <Route exact path={"/Login"} component={Login}/>
                         <Route exact path={"/404"} component={NotFound}/>
-                        <Route exact path={"/Dashboard"} component={Dashboard}/>
                         <Route path={"/"} component={App}/>
                     </Switch>
                 </HashRouter>
