@@ -7,6 +7,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Dashboard from "./pages/Dashboard";
 import Navbar from "./components/Navbar";
 import Menu from "./components/Menu";
+import withDataFetching from "./HOC";
 
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +34,7 @@ const App = (props) => {
     return (
         <div className={classes.root}>
             <CssBaseline/>
-            <Navbar open={open} callbackIsOpen={(value)=> setOpen(value)} {...props}/>
+            <Navbar open={open} callbackIsOpen={(value)=> setOpen(value)} props={props}/>
             <Menu open={open} callbackIsOpen={(value)=> setOpen(value)}/>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
@@ -41,7 +42,8 @@ const App = (props) => {
                     <Suspense fallback={""}>
                         <HashRouter>
                             <Switch>
-                                <Route exact path={"/Dashboard"} component={Dashboard}/>
+                                <Route exact path={"/"} component={withDataFetching(Dashboard)}/>
+                                <Route exact path={"/Dashboard"} component={withDataFetching(Dashboard)}/>
                             </Switch>
                         </HashRouter>
                     </Suspense>

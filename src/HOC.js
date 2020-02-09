@@ -17,7 +17,12 @@ export default function withDataFetching(WrappedComponent) {
         }, [])
 
         const init = () => {
-            dispatchMainApp({type: "SET_USER", payload: 'Unknow'})
+            console.log('HOC')
+            setTimeout(()=>{
+                dispatchMainApp({type: "SET_USER", payload: 'Unknow'})
+                dispatchMainApp({type: "SET_MENU", payload: []})
+            }, 1500)
+
         }
 
 

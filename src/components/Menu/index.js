@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import clsx from "clsx";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -7,6 +7,7 @@ import List from "@material-ui/core/List";
 import ListItems from "./ListItems";
 import Drawer from "@material-ui/core/Drawer";
 import {makeStyles} from "@material-ui/core/styles";
+import {MainAppContext} from "../../context";
 
 const drawerWidth = 240;
 
@@ -51,6 +52,8 @@ const useStyles = makeStyles(theme => ({
 
 const Menu = ({open, callbackIsOpen}) => {
 
+    let {stateMainApp} = useContext(MainAppContext);
+
     const classes = useStyles();
     const handleDrawerClose = () => {
         callbackIsOpen(false);
@@ -70,7 +73,7 @@ const Menu = ({open, callbackIsOpen}) => {
                 </IconButton>
             </div>
             <Divider/>
-            <List><ListItems isOpen={open}/></List>
+            {stateMainApp.menu ? <List><ListItems isOpen={open}/></List> : null}
         </Drawer>
     )
 }

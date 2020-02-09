@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-//import {MainAppContext} from "../../context";
+import {MainAppContext} from "../../context";
 //import {useTranslation} from "react-i18next";
 import clsx from "clsx";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -19,6 +19,13 @@ import Link from "@material-ui/core/Link";
 import {AccountCircle} from "@material-ui/icons";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import AlertBar from "./AlertBar";
+import NotificacionstBar from "./NotificationsBar";
+import CollaborationsBar from "./Collaborations";
+import UserBar from "./UserBar";
+import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Input from "@material-ui/core/Input";
 
 
 const drawerWidth = 240;
@@ -58,9 +65,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const Navbar = ({open, callbackIsOpen, history}) => {
+const Navbar = ({open, callbackIsOpen, props}) => {
 
-    //let {stateMainApp, dispatchMainApp} = useContext(MainAppContext);
+    let {stateMainApp} = useContext(MainAppContext);
     //const {t, i18n} = useTranslation();
 
     const classes = useStyles();
@@ -70,18 +77,7 @@ const Navbar = ({open, callbackIsOpen, history}) => {
     };
 
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const openProfile = Boolean(anchorEl);
-
-
-    const handleMenu = event => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
+    console.log('stateMainApp', stateMainApp)
 
     return (
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -95,57 +91,20 @@ const Navbar = ({open, callbackIsOpen, history}) => {
                 >
                     <MenuIcon/>
                 </IconButton>
-                <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    Dashboard
-                </Typography>
-                <IconButton color="inherit">
-                    <Badge badgeContent={4} max={5} color="primary" classes={{ colorPrimary: 'bg-success'}}>
-                        <GroupIcon/>
-                    </Badge>
-                </IconButton>
-                <IconButton color="inherit">
-                    <Badge badgeContent={4} max={50} color="secondary" classes={{ colorSecondary: 'bg-warning'}}>
-                        <PersonIcon/>
-                    </Badge>
-                </IconButton>
-                <IconButton color="inherit">
-                    <Badge badgeContent={100} max={99} color="error" classes={{ colorError: 'bg-error'}}>
-                        <NotificationsIcon/>
-                    </Badge>
-                </IconButton>
 
-
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="menu-appbar"
-                    aria-haspopup="true"
-                    onClick={handleMenu}
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-                <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    keepMounted
-                    transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'right',
-                    }}
-                    open={openProfile}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={handleClose}>Perfil</MenuItem>
-                    <MenuItem onClick={(event)=>{
-                        event.preventDefault()
-                        history.push('/login');
-                    }}>Cerrar sesión</MenuItem>
-                </Menu>
+                {stateMainApp.user ?
+                    <React.Fragment>
+                        <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+                            Dasjboard
+                        </Typography>
+                        <CollaborationsBar/>
+                        <AlertBar/>
+                        <NotificacionstBar/>
+                        <UserBar {...props}/>
+                    </React.Fragment> : null}
             </Toolbar>
+
+
         </AppBar>
     )
 }
