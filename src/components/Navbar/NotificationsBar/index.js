@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const NotificacionstBar = () => {
+const NotificacionstBar = ({num_elementos = 0, lista = []}) => {
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,7 +33,7 @@ const NotificacionstBar = () => {
     return (
         <div>
             <IconButton color="inherit" onClick={handleClick}>
-                <Badge badgeContent={100} max={99} color="error" classes={{ colorError: 'bg-error'}}>
+                <Badge badgeContent={num_elementos} max={99} color="error" classes={{ colorError: 'bg-error'}}>
                     <NotificationsIcon/>
                 </Badge>
             </IconButton>

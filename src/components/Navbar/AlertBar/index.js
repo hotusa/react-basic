@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const AlertBar = () => {
+const AlertBar = ({num_elementos = 0, lista = []}) => {
 
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -32,7 +32,7 @@ const AlertBar = () => {
     return (
         <div>
             <IconButton color="inherit" onClick={handleClick}>
-                <Badge badgeContent={4} max={50} color="secondary" classes={{ colorSecondary: 'bg-warning'}}>
+                <Badge badgeContent={num_elementos} max={99} color="secondary" classes={{ colorSecondary: 'bg-warning'}}>
                     <PersonIcon/>
                 </Badge>
             </IconButton>

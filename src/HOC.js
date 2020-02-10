@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useRef} from 'react'
 import {MainAppContext} from "./context";
+import Api from './api'
 
 export default function withDataFetching(WrappedComponent) {
     return function (props) {
 
-        let {dispatchMainApp} = useContext(MainAppContext);
+        let {stateMainApp, dispatchMainApp} = useContext(MainAppContext);
 
         const unmount = useRef(false);
 
@@ -17,12 +18,62 @@ export default function withDataFetching(WrappedComponent) {
         }, [])
 
         const init = () => {
-            console.log('HOC')
-            setTimeout(()=>{
-                dispatchMainApp({type: "SET_USER", payload: 'Unknow'})
-                dispatchMainApp({type: "SET_MENU", payload: []})
-            }, 1500)
+            const token = localStorage.getItem('token')
+            console.log('HOC', token)
 
+            validarUsuario(token)
+
+
+        }
+
+        const validarUsuario = async (token) => {
+            if (token) {
+
+                // Login
+                const result_login = await Api.byPassServlet.loginByToken(token)
+
+                if (result_login.status === 200 && result_login.data.Status === 'OK') {
+                    dispatchMainApp({type: "SET_USER", payload: result_login.data.Salida})
+
+                    const {empl_code} = result_login.data.Salida
+
+                    // GetConfiguracionUsuario
+                    const result_configUser = await Api.byPassServlet.getConfiguracionUsuario(token, empl_code)
+
+                    if (result_configUser.status === 200 && result_configUser.data.Status === 'OK') {
+                        dispatchMainApp({type: "SET_CONFIG_USER", payload: result_configUser.data.Salida})
+                    } else {
+                        props.history.push('/login');
+                    }
+
+
+                    // User CRM
+                    const result_user_crm = await Api.crmServlet.getUsuarioCrmByEmplCode(token, empl_code)
+                    if (result_user_crm.status === 200 && result_user_crm.data.Status === 'OK') {
+                        dispatchMainApp({type: "SET_USER_CRM", payload: result_user_crm.data.Salida.datos_peticion})
+                    } else {
+                        props.history.push('/login');
+                    }
+
+
+                    // Get Menu
+                    const result_menu = await Api.byPassServlet.getMenu(token)
+                    if (result_menu.status === 200 && result_menu.data && result_menu.data.Salida) {
+                        dispatchMainApp({type: "SET_MENU", payload: result_menu.data.Salida.menuList})
+                    } else {
+                        props.history.push('/login');
+                    }
+
+
+
+
+                } else {
+                    props.history.push('/login');
+                }
+
+            } else {
+                props.history.push('/login');
+            }
         }
 
 

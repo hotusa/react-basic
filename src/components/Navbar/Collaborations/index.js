@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const CollaborationsBar = () => {
+const CollaborationsBar = ({num_elementos = 0, lista = []}) => {
 
     useEffect(()=>{
        console.log('init CollaborationsBar ')
@@ -42,7 +42,7 @@ const CollaborationsBar = () => {
     return (
         <div>
             <IconButton color="inherit" onClick={handleClick}>
-                <Badge badgeContent={4} max={5} color="primary" classes={{ colorPrimary: 'bg-success'}}>
+                <Badge badgeContent={num_elementos} max={99} color="primary" classes={{ colorPrimary: 'bg-success'}}>
                     <GroupIcon/>
                 </Badge>
             </IconButton>

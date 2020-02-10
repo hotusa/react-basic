@@ -1,31 +1,17 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {MainAppContext} from "../../context";
-//import {useTranslation} from "react-i18next";
+import Api from './../../api'
 import clsx from "clsx";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Typography from "@material-ui/core/Typography";
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import AppBar from "@material-ui/core/AppBar";
 import {makeStyles} from "@material-ui/core/styles";
-import PersonIcon from '@material-ui/icons/Person';
-import GroupIcon from '@material-ui/icons/Group';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
-import Link from "@material-ui/core/Link";
-import {AccountCircle} from "@material-ui/icons";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
 import AlertBar from "./AlertBar";
 import NotificacionstBar from "./NotificationsBar";
 import CollaborationsBar from "./Collaborations";
 import UserBar from "./UserBar";
-import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Input from "@material-ui/core/Input";
 
 
 const drawerWidth = 240;
@@ -68,7 +54,113 @@ const useStyles = makeStyles(theme => ({
 const Navbar = ({open, callbackIsOpen, props}) => {
 
     let {stateMainApp} = useContext(MainAppContext);
-    //const {t, i18n} = useTranslation();
+    const [notificaciones, setNotificaciones] = useState({num_elementos: 0, lineas: []})
+    const [alertas, setAlertas] = useState({num_elementos: 0, lineas: []})
+    const [colaboro, setColaboro] = useState({num_elementos: 0, lineas: []})
+
+    useEffect(() => {
+
+        if (stateMainApp.userCrm) {
+            const {user_id} = stateMainApp.userCrm.data
+            const token = localStorage.getItem('token')
+            getNotificaciones(user_id, token)
+            getAlertas(user_id, token)
+            getAlertasColaboro(user_id, token)
+        }
+
+    }, [stateMainApp.userCrm])
+
+
+    const getNotificaciones = async (user_id, token) => {
+        const entrada = {
+            "tipo_modulo": "",
+            "nombre": "",
+            "leida": "",
+            "tipo": [],
+            "neo_id": user_id,
+            "pagina": "1",
+            "num_resultados": "1000",
+            "orden": "fecha_creacion_ts",
+            "tipo_orden": "DESC"
+        }
+        const result = await Api.crmServlet.getNotificaciones(token, entrada)
+
+        if (result.status === 200 && result.data.Status === 'OK') {
+            setNotificaciones({
+                num_elementos: result.data.Salida.datos.num_elementos,
+                lineas: result.data.Salida.lineas
+            })
+        } else {
+            setNotificaciones({num_elementos: 0, lineas: []})
+        }
+    }
+
+
+    const getAlertas = async (user_id, token) => {
+        const entrada = {
+            "tiposActividad": ["Llamada", "Tarea", "Evento"],
+            "estadoActividad": "pendiente",
+            "favoritaActividad": false,
+            "comentarioActividad": "",
+            "fechaActividad": "1581285600000",
+            "fechaActividadFin": "1581371999059",
+            "neoIdUsuarioActividad": user_id,
+            "motivoLlamadaActividad": "",
+            "nombreEvento": "",
+            "nombreTarea": "",
+            "tipoNota": "",
+            "tiposReferencia": [],
+            "pagina": "1",
+            "num_resultados": "1000",
+            "orden": "fecha",
+            "tipo_orden": "ASC",
+            "tipoActividad": "MIAS"
+        }
+        const result = await Api.crmServlet.getActividadesAlertas(token, entrada)
+
+        if (result.status === 200 && result.data.Status === 'OK') {
+            setAlertas({
+                num_elementos: result.data.Salida.datos.num_elementos,
+                lineas: result.data.Salida.lineas
+            })
+        } else {
+            setAlertas({num_elementos: 0, lineas: []})
+        }
+    }
+
+
+    const getAlertasColaboro = async (user_id, token) => {
+        const entrada = {
+            "tiposActividad": ["Llamada", "Tarea", "Evento"],
+            "estadoActividad": "pendiente",
+            "favoritaActividad": false,
+            "comentarioActividad": "",
+            "fechaActividad": "1581285600000",
+            "fechaActividadFin": "1581371999059",
+            "neoIdUsuarioActividad": user_id,
+            "motivoLlamadaActividad": "",
+            "nombreEvento": "",
+            "nombreTarea": "",
+            "tipoNota": "",
+            "tiposReferencia": [],
+            "pagina": "1",
+            "num_resultados": "1000",
+            "orden": "fecha",
+            "tipo_orden": "ASC",
+            "tipoActividad": "COLABORO"
+        }
+        const result = await Api.crmServlet.getActividadesAlertas(token, entrada)
+
+        if (result.status === 200 && result.data.Status === 'OK') {
+            setColaboro({
+                num_elementos: result.data.Salida.datos.num_elementos,
+                lineas: result.data.Salida.lineas
+            })
+        } else {
+            setColaboro({num_elementos: 0, lineas: []})
+        }
+    }
+
 
     const classes = useStyles();
 
@@ -95,11 +187,17 @@ const Navbar = ({open, callbackIsOpen, props}) => {
                 {stateMainApp.user ?
                     <React.Fragment>
                         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                            Dasjboard
+                            {`${stateMainApp.user.nombre} ${stateMainApp.user.apellido1} (${stateMainApp.user.perfil})`}
                         </Typography>
-                        <CollaborationsBar/>
-                        <AlertBar/>
-                        <NotificacionstBar/>
+                        <CollaborationsBar
+                            num_elementos={colaboro.num_elementos}
+                            lista={colaboro.num_elementos}/>
+                        <AlertBar
+                            num_elementos={alertas.num_elementos}
+                            lista={alertas.lineas}/>
+                        <NotificacionstBar
+                            num_elementos={notificaciones.num_elementos}
+                            lista={notificaciones.lineas}/>
                         <UserBar {...props}/>
                     </React.Fragment> : null}
             </Toolbar>

@@ -3,14 +3,16 @@
 const dev = {
     env: 'DEV',
     url: {
-        ByPassServlet: 'http://localhost:8080/ByPassServlet/'
+        ByPassServlet: 'http://localhost:8080/ByPassServlet/',
+        CRMServlet: 'http://localhost:8080/CRMServlet/'
     }
 }
 
 const prod = {
     env: 'DEV',
     url: {
-        ByPassServlet: 'http://localhost:8080/ByPassServlet/'
+        ByPassServlet: 'http://localhost:8080/ByPassServlet/',
+        CRMServlet: 'http://localhost:8080/CRMServlet/'
     }
 }
 

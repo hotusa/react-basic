@@ -4,6 +4,8 @@ export const initValueMainApp = {
     color: 'default',
     user: null,
     menu: null,
+    configUser: null,
+    userCrm: null
 }
 
 const MainAppContext = React.createContext(initValueMainApp)
@@ -18,6 +20,10 @@ let reducer = (state, action) => {
             return {...state, ...{user: action.payload}}
         case "SET_MENU":
             return {...state, ...{menu: action.payload}}
+        case "SET_CONFIG_USER":
+            return {...state, ...{configUser: action.payload}}
+        case "SET_USER_CRM":
+            return {...state, ...{userCrm: action.payload}}
         default:
             return {...state}
     }

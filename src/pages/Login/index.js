@@ -1,32 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
+import Api from '../../api'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-
-import api from '../../api'
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import ModalAlert from "../../components/ModalAlert";
+import {MainAppContext} from "../../context";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -61,7 +45,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function Login(props) {
 
+    let {dispatchMainApp} = useContext(MainAppContext);
     const classes = useStyles();
+    const [user, setUser] = useState({ username: '', password: ''})
+    const [alertOptions, setAlertOptions] = useState({show: false, message: '', type: 'success', time: 3000})
 
     useEffect(()=>{
 
@@ -69,106 +56,86 @@ export default function Login(props) {
 
     },[])
 
-    const getLogin = () => {
+    const getLogin = async () => {
 
-        api.sendByPassServlet(
-            {
-                "ByPass": "usuario",
-                "Servicio": "usuarios",
-                "Metodo": "GetLoginCRM",
-                "Tipo": "",
-                "Entrada": {
-                    "username": "jmarin",
-                    "password": "jmarin1",
-                    "user_session_id": "",
-                    "recordarUsuario": false
-                },
-                "Id": "",
-                "URL": "",
-                "recuerdame_id": ""
-            }
-        ).then(result => {
+        if (user.username.length > 0 && user.password.length > 0) {
+
+            const {username, password} = user
+            const result = await Api.byPassServlet.login(username, password)
 
             if (result.status === 200 && result.data.Status === 'OK') {
                 const token = result.data.Id
                 localStorage.setItem('token', token)
+
+                dispatchMainApp({type: "SET_USER", payload: result.data.Salida})
+
                 props.history.push('/');
             }
 
-        }).catch(error => {
-            console.log(error)
-        })
+        } else {
+            setAlertOptions({...alertOptions, show: true, message: 'Campos obligatorios', type:'error'})
+        }
 
     }
 
 
     return (
-        <Grid container component="main" className={classes.root}>
-            <CssBaseline/>
-            <Grid item xs={false} sm={4} md={7} className={classes.image}/>
-            <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-                <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon/>
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign in
-                    </Typography>
-                    <form className={classes.form} noValidate>
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Address"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            variant="outlined"
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type="password"
-                            id="password"
-                            autoComplete="current-password"
-                        />
-                        <FormControlLabel
+        <div>
+            <ModalAlert options={alertOptions} handleClose={()=>setAlertOptions({...alertOptions, show: false})}/>
+            <Grid container component="main" className={classes.root}>
+                <CssBaseline/>
+                <Grid item xs={false} sm={4} md={7} className={classes.image}/>
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <LockOutlinedIcon/>
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign in
+                        </Typography>
+                        <form className={classes.form} noValidate>
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="username"
+                                label="Username"
+                                name="username"
+                                autoFocus
+                                onChange={event => setUser({...user, username: event.target.value})}
+                            />
+                            <TextField
+                                variant="outlined"
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type="password"
+                                id="password"
+                                autoComplete="current-password"
+                                onChange={event => setUser({...user, password: event.target.value})}
+                            />
+                            {/*<FormControlLabel
                             control={<Checkbox value="remember" color="primary"/>}
                             label="Remember me"
-                        />
-                        <Button
-                            type="button"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
-                            onClick={getLogin}
-                        >
-                            Sign In
-                        </Button>
-                        <Grid container>
-                            <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
-                            </Grid>
-                            <Grid item>
-                                <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
-                            </Grid>
-                        </Grid>
-                        <Box mt={5}>
-                            <Copyright/>
-                        </Box>
-                    </form>
-                </div>
+                        />*/}
+                            <Button
+                                type="button"
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={getLogin}
+                            >
+                                Sign In
+                            </Button>
+                        </form>
+                    </div>
+                </Grid>
             </Grid>
-        </Grid>
+        </div>
+
     );
 }
