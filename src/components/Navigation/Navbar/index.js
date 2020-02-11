@@ -61,23 +61,23 @@ const Navbar = ({open, callbackIsOpen, props}) => {
     useEffect(() => {
 
         if (stateMainApp.userCrm) {
-            const {user_id} = stateMainApp.userCrm.data
+            const {neo_id} = stateMainApp.userCrm.metadata
             const token = localStorage.getItem('token')
-            getNotificaciones(user_id, token)
-            getAlertas(user_id, token)
-            getAlertasColaboro(user_id, token)
+            getNotificaciones(neo_id, token)
+            getAlertas(neo_id, token)
+            getAlertasColaboro(neo_id, token)
         }
 
     }, [stateMainApp.userCrm])
 
 
-    const getNotificaciones = async (user_id, token) => {
+    const getNotificaciones = async (neo_id, token) => {
         const entrada = {
             "tipo_modulo": "",
             "nombre": "",
             "leida": "",
             "tipo": [],
-            "neo_id": user_id,
+            "neo_id": neo_id,
             "pagina": "1",
             "num_resultados": "1000",
             "orden": "fecha_creacion_ts",
@@ -95,7 +95,7 @@ const Navbar = ({open, callbackIsOpen, props}) => {
         }
     }
 
-    const getAlertas = async (user_id, token) => {
+    const getAlertas = async (neo_id, token) => {
         const entrada = {
             "tiposActividad": ["Llamada", "Tarea", "Evento"],
             "estadoActividad": "pendiente",
@@ -103,7 +103,7 @@ const Navbar = ({open, callbackIsOpen, props}) => {
             "comentarioActividad": "",
             "fechaActividad": "1581285600000",
             "fechaActividadFin": "1581371999059",
-            "neoIdUsuarioActividad": user_id,
+            "neoIdUsuarioActividad": neo_id,
             "motivoLlamadaActividad": "",
             "nombreEvento": "",
             "nombreTarea": "",
@@ -127,7 +127,7 @@ const Navbar = ({open, callbackIsOpen, props}) => {
         }
     }
 
-    const getAlertasColaboro = async (user_id, token) => {
+    const getAlertasColaboro = async (neo_id, token) => {
         const entrada = {
             "tiposActividad": ["Llamada", "Tarea", "Evento"],
             "estadoActividad": "pendiente",
@@ -135,7 +135,7 @@ const Navbar = ({open, callbackIsOpen, props}) => {
             "comentarioActividad": "",
             "fechaActividad": "1581285600000",
             "fechaActividadFin": "1581371999059",
-            "neoIdUsuarioActividad": user_id,
+            "neoIdUsuarioActividad": neo_id,
             "motivoLlamadaActividad": "",
             "nombreEvento": "",
             "nombreTarea": "",

@@ -76,8 +76,6 @@ const Menu = ({open, callbackIsOpen}) => {
         callbackIsOpen(false);
     };
 
-    console.log('stateMainApp', stateMainApp)
-
     const BoxAvatar = () => {
         if (stateMainApp.userCrm) {
             return (

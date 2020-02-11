@@ -9,6 +9,7 @@ import Navbar from "./components/Navigation/Navbar";
 import Menu from "./components/Navigation/Menu";
 import withDataFetching from "./HOC";
 import Navigation from "./components/Navigation";
+import Profile from "./pages/Profile";
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +32,6 @@ const App = (props) => {
 
     const classes = useStyles();
 
-
     return (
         <div className={classes.root}>
             <CssBaseline/>
@@ -44,6 +44,7 @@ const App = (props) => {
                             <Switch>
                                 <Route exact path={"/"} component={withDataFetching(Dashboard)}/>
                                 <Route exact path={"/Dashboard"} component={withDataFetching(Dashboard)}/>
+                                <Route exact path={"/crm_config_user_crm"} component={withDataFetching(Profile)}/>
                             </Switch>
                         </HashRouter>
                     </Suspense>

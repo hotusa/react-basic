@@ -19,7 +19,7 @@ export default function withDataFetching(WrappedComponent) {
 
         const init = () => {
             const token = localStorage.getItem('token')
-            console.log('HOC', token)
+            console.log('HOC', token, stateMainApp)
 
             validarUsuario(token)
 
@@ -39,33 +39,40 @@ export default function withDataFetching(WrappedComponent) {
                     const {empl_code} = result_login.data.Salida
 
                     // GetConfiguracionUsuario
-                    const result_configUser = await Api.byPassServlet.getConfiguracionUsuario(token, empl_code)
+                    if (!stateMainApp.configUser) {
+                        console.log('getConfiguracionUsuario...')
+                        const result_configUser = await Api.byPassServlet.getConfiguracionUsuario(token, empl_code)
 
-                    if (result_configUser.status === 200 && result_configUser.data.Status === 'OK') {
-                        dispatchMainApp({type: "SET_CONFIG_USER", payload: result_configUser.data.Salida})
-                    } else {
-                        props.history.push('/login');
+                        if (result_configUser.status === 200 && result_configUser.data.Status === 'OK') {
+                            dispatchMainApp({type: "SET_CONFIG_USER", payload: result_configUser.data.Salida})
+                        } else {
+                            props.history.push('/login');
+                        }
                     }
 
 
                     // User CRM
-                    const result_user_crm = await Api.crmServlet.getUsuarioCrmByEmplCode(token, empl_code)
-                    if (result_user_crm.status === 200 && result_user_crm.data.Status === 'OK') {
-                        dispatchMainApp({type: "SET_USER_CRM", payload: result_user_crm.data.Salida.datos_peticion})
-                    } else {
-                        props.history.push('/login');
+                    if (!stateMainApp.userCrm) {
+                        console.log('getUsuarioCrmByEmplCode...')
+                        const result_user_crm = await Api.crmServlet.getUsuarioCrmByEmplCode(token, empl_code)
+                        if (result_user_crm.status === 200 && result_user_crm.data.Status === 'OK') {
+                            dispatchMainApp({type: "SET_USER_CRM", payload: result_user_crm.data.Salida.datos_peticion})
+                        } else {
+                            props.history.push('/login');
+                        }
                     }
 
 
                     // Get Menu
-                    const result_menu = await Api.byPassServlet.getMenu(token)
-                    if (result_menu.status === 200 && result_menu.data && result_menu.data.Salida) {
-                        dispatchMainApp({type: "SET_MENU", payload: result_menu.data.Salida.menuList})
-                    } else {
-                        props.history.push('/login');
+                    if (!stateMainApp.menu) {
+                        console.log('getMenu...')
+                        const result_menu = await Api.byPassServlet.getMenu(token)
+                        if (result_menu.status === 200 && result_menu.data && result_menu.data.Salida) {
+                            dispatchMainApp({type: "SET_MENU", payload: result_menu.data.Salida.menuList})
+                        } else {
+                            props.history.push('/login');
+                        }
                     }
-
-
 
 
                 } else {

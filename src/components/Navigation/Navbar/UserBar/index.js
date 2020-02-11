@@ -44,7 +44,11 @@ const UserBar = (props) => {
                 open={openProfile}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Perfil</MenuItem>
+                <MenuItem onClick={(event => {
+                    event.preventDefault()
+                    handleClose()
+                    props.history.push('/crm_config_user_crm');
+                })}>Perfil</MenuItem>
                 <MenuItem onClick={(event)=>{
                     event.preventDefault()
                     props.history.push('/login');

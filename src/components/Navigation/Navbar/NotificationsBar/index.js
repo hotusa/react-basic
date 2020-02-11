@@ -30,6 +30,8 @@ const NotificacionstBar = ({num_elementos = 0, lista = []}) => {
     const open = Boolean(anchorEl);
     const id = open ? 'simple-popover' : undefined;
 
+    console.log('NotificacionstBar', num_elementos, lista)
+
     return (
         <div>
             <IconButton color="inherit" onClick={handleClick}>
@@ -52,7 +54,7 @@ const NotificacionstBar = ({num_elementos = 0, lista = []}) => {
                 }}
             >
                 <Typography className={classes.typography}>
-                    Notifications
+                    {JSON.stringify(lista)}
                 </Typography>
             </Popover>
         </div>
