@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {MainAppContext} from "../../context";
-import Api from './../../api'
+import {MainAppContext} from "../../../context";
+import Api from '../../../api'
 import clsx from "clsx";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -95,7 +95,6 @@ const Navbar = ({open, callbackIsOpen, props}) => {
         }
     }
 
-
     const getAlertas = async (user_id, token) => {
         const entrada = {
             "tiposActividad": ["Llamada", "Tarea", "Evento"],
@@ -127,7 +126,6 @@ const Navbar = ({open, callbackIsOpen, props}) => {
             setAlertas({num_elementos: 0, lineas: []})
         }
     }
-
 
     const getAlertasColaboro = async (user_id, token) => {
         const entrada = {
@@ -161,15 +159,11 @@ const Navbar = ({open, callbackIsOpen, props}) => {
         }
     }
 
-
     const classes = useStyles();
 
     const handleDrawerOpen = () => {
         callbackIsOpen(true);
     };
-
-
-    console.log('stateMainApp', stateMainApp)
 
     return (
         <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
@@ -187,7 +181,7 @@ const Navbar = ({open, callbackIsOpen, props}) => {
                 {stateMainApp.user ?
                     <React.Fragment>
                         <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                            {`${stateMainApp.user.nombre} ${stateMainApp.user.apellido1} (${stateMainApp.user.perfil})`}
+                            Buscador...
                         </Typography>
                         <CollaborationsBar
                             num_elementos={colaboro.num_elementos}

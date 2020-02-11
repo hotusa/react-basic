@@ -5,9 +5,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
 import {makeStyles} from "@material-ui/core/styles";
 import Dashboard from "./pages/Dashboard";
-import Navbar from "./components/Navbar";
-import Menu from "./components/Menu";
+import Navbar from "./components/Navigation/Navbar";
+import Menu from "./components/Navigation/Menu";
 import withDataFetching from "./HOC";
+import Navigation from "./components/Navigation";
 
 
 const useStyles = makeStyles(theme => ({
@@ -29,13 +30,12 @@ const useStyles = makeStyles(theme => ({
 const App = (props) => {
 
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
+
 
     return (
         <div className={classes.root}>
             <CssBaseline/>
-            <Navbar open={open} callbackIsOpen={(value)=> setOpen(value)} props={props}/>
-            <Menu open={open} callbackIsOpen={(value)=> setOpen(value)}/>
+            <Navigation {...props}/>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth={false} className={classes.container}>

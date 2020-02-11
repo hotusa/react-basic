@@ -70,6 +70,8 @@ export default function Login(props) {
                 dispatchMainApp({type: "SET_USER", payload: result.data.Salida})
 
                 props.history.push('/');
+            } else {
+                setAlertOptions({...alertOptions, show: true, message: 'No existe usuario', type:'error'})
             }
 
         } else {
@@ -93,7 +95,10 @@ export default function Login(props) {
                         <Typography component="h1" variant="h5">
                             Sign in
                         </Typography>
-                        <form className={classes.form} noValidate>
+                        <form className={classes.form} noValidate onSubmit={(e)=>{
+                            e.preventDefault()
+                            getLogin()
+                        }}>
                             <TextField
                                 variant="outlined"
                                 margin="normal"
@@ -122,12 +127,11 @@ export default function Login(props) {
                             label="Remember me"
                         />*/}
                             <Button
-                                type="button"
+                                type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                onClick={getLogin}
                             >
                                 Sign In
                             </Button>

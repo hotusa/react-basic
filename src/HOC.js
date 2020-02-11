@@ -27,6 +27,7 @@ export default function withDataFetching(WrappedComponent) {
         }
 
         const validarUsuario = async (token) => {
+            console.log('validar usuario')
             if (token) {
 
                 // Login

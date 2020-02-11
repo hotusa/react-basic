@@ -7,11 +7,19 @@ import List from "@material-ui/core/List";
 import ListItems from "./ListItems";
 import Drawer from "@material-ui/core/Drawer";
 import {makeStyles} from "@material-ui/core/styles";
-import {MainAppContext} from "../../context";
+import {MainAppContext} from "../../../context";
+import Avatar from "@material-ui/core/Avatar";
+import Grid from "@material-ui/core/Grid";
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        '& > *': {
+            margin: theme.spacing(1),
+        },
+    },
     toolbar: {
         paddingRight: 24, // keep right padding when drawer closed
     },
@@ -48,6 +56,14 @@ const useStyles = makeStyles(theme => ({
         overflow: 'auto',
         flexDirection: 'column',
     },
+    profile: {
+        padding: theme.spacing(2)
+    },
+    avatar: {
+        margin: theme.spacing(2),
+        width: theme.spacing(10),
+        height: theme.spacing(10),
+    },
 }));
 
 const Menu = ({open, callbackIsOpen}) => {
@@ -55,9 +71,44 @@ const Menu = ({open, callbackIsOpen}) => {
     let {stateMainApp} = useContext(MainAppContext);
 
     const classes = useStyles();
+
     const handleDrawerClose = () => {
         callbackIsOpen(false);
     };
+
+    console.log('stateMainApp', stateMainApp)
+
+    const BoxAvatar = () => {
+        if (stateMainApp.userCrm) {
+            return (
+                <Grid container spacing={1} alignContent={'center'} alignItems={'center'} direction={"column"}>
+                    <Grid item>
+                        <Avatar alt="avatar"
+                                src={`http://10.100.2.3/CRMServlet/neo/images/avatares/${stateMainApp.userCrm.data.avatar}`}
+                                className={classes.avatar}
+                                variant={'square'}/>
+                    </Grid>
+                </Grid>
+            )
+        }
+    }
+
+    const BoxUserName = () => {
+        if (stateMainApp.user) {
+            return (
+                <Grid container spacing={0} alignContent={'center'} alignItems={'center'} direction={"column"}>
+                    <Grid item>
+                        <div>{`${stateMainApp.user.nombre} ${stateMainApp.user.apellido1} ${stateMainApp.user.apellido2}`}</div>
+                    </Grid>
+                    <Grid item>
+                        <small>{stateMainApp.user.perfil}</small>
+                    </Grid>
+                </Grid>
+            )
+        } else {
+            return null
+        }
+    }
 
     return (
         <Drawer
@@ -73,6 +124,10 @@ const Menu = ({open, callbackIsOpen}) => {
                 </IconButton>
             </div>
             <Divider/>
+            <div className={classes.profile}>
+                {BoxAvatar()}
+                {BoxUserName()}
+            </div>
             {stateMainApp.menu ? <List><ListItems isOpen={open}/></List> : null}
         </Drawer>
     )
