@@ -40,6 +40,7 @@ const useStyles = makeStyles(theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        padding: theme.spacing(2)
     },
 }));
 
@@ -61,17 +62,21 @@ export default function Login(props) {
         if (user.username.length > 0 && user.password.length > 0) {
 
             const {username, password} = user
-            const result = await Api.byPassServlet.login(username, password)
+            try {
+                const result = await Api.byPassServlet.login(username, password)
 
-            if (result.status === 200 && result.data.Status === 'OK') {
-                const token = result.data.Id
-                localStorage.setItem('token', token)
+                if (result.status === 200 && result.data.Status === 'OK') {
+                    const token = result.data.Id
+                    localStorage.setItem('token', token)
 
-                dispatchMainApp({type: "SET_USER", payload: result.data.Salida})
+                    dispatchMainApp({type: "SET_USER", payload: result.data.Salida})
 
-                props.history.push('/');
-            } else {
-                setAlertOptions({...alertOptions, show: true, message: 'No existe usuario', type:'error'})
+                    props.history.push('/');
+                } else {
+                    setAlertOptions({...alertOptions, show: true, message: 'No existe usuario', type: 'error'})
+                }
+            } catch (err) {
+                setAlertOptions({...alertOptions, show: true, message: err.message, type:'error'})
             }
 
         } else {
@@ -93,7 +98,7 @@ export default function Login(props) {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Iniciar sesión
                         </Typography>
                         <form className={classes.form} noValidate onSubmit={(e)=>{
                             e.preventDefault()
@@ -122,10 +127,6 @@ export default function Login(props) {
                                 autoComplete="current-password"
                                 onChange={event => setUser({...user, password: event.target.value})}
                             />
-                            {/*<FormControlLabel
-                            control={<Checkbox value="remember" color="primary"/>}
-                            label="Remember me"
-                        />*/}
                             <Button
                                 type="submit"
                                 fullWidth
@@ -133,7 +134,7 @@ export default function Login(props) {
                                 color="primary"
                                 className={classes.submit}
                             >
-                                Sign In
+                                Entrar
                             </Button>
                         </form>
                     </div>
