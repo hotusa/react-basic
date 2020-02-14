@@ -11,7 +11,8 @@ import {MainAppContext} from "../../../context";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 
-const drawerWidth = 240;
+
+const drawerWidth = 280;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -108,6 +109,7 @@ const Menu = ({open, callbackIsOpen}) => {
         }
     }
 
+    console.log('stateMainApp.menu',stateMainApp.menu)
     return (
         <Drawer
             variant="persistent"

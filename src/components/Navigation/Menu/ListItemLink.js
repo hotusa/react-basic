@@ -3,15 +3,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import {Link} from "react-router-dom";
-import {ExpandLess, ExpandMore} from "@material-ui/icons";
+import {ExpandLess, ExpandMore, Dashboard} from "@material-ui/icons";
 import Collapse from "@material-ui/core/Collapse";
 import List from "@material-ui/core/List";
 import {useTranslation} from "react-i18next";
-
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import UtilsIcons from "../../../utils/UtilsIcons";
 
 const useStyles = makeStyles(theme => ({
     nested: {
-        paddingLeft: theme.spacing(5),
+        paddingLeft: theme.spacing(9),
     },
 }));
 
@@ -19,7 +20,7 @@ const ListItemLink = ({item, isOpen, isSub=false}) => {
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const {descripcion, config_link_pag, subMenu} = item
+    const {descripcion, config_link_pag, subMenu, icono} = item
     const {t, i18n} = useTranslation();
 
     const handleClick = () => {
@@ -37,9 +38,10 @@ const ListItemLink = ({item, isOpen, isSub=false}) => {
     if (subMenu && subMenu.length === 0) {
         return (
             <ListItem button component={renderLink} className={isSub ? classes.nested : '' }>
-                {/*<ListItemIcon>
-                    <DashboardIcon/>
-                </ListItemIcon>*/}
+                {!isSub ?
+                    <ListItemIcon>
+                        {UtilsIcons.getIcon(icono)}
+                    </ListItemIcon> : null}
                 <ListItemText primary={t(descripcion)}/>
             </ListItem>
         )
@@ -47,9 +49,9 @@ const ListItemLink = ({item, isOpen, isSub=false}) => {
         return (
             <React.Fragment>
                 <ListItem button onClick={handleClick}>
-                    {/*<ListItemIcon>
-                        <InboxIcon />
-                    </ListItemIcon>*/}
+                    <ListItemIcon>
+                        {UtilsIcons.getIcon(icono)}
+                    </ListItemIcon>
                     <ListItemText primary={t(descripcion)} />
                     {open ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
