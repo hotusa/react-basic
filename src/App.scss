@@ -1,0 +1,11 @@
+@import "styles/colors";
+
+.bg-success {
+    background-color: $verde !important;
+}
+.bg-warning {
+    background-color: $amarillo !important;
+}
+.bg-error {
+    background-color: $rojo !important;
+}

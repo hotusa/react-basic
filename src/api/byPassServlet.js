@@ -32,16 +32,12 @@ export default {
             "ByPass": "usuario",
             "Servicio": "usuarios",
             "Metodo": "GetLoginCRM",
-            "Tipo": "",
             "Entrada": {
                 "username": username,
                 "password": password,
                 "user_session_id": "",
                 "recordarUsuario": false
-            },
-            "Id": "",
-            "URL": "",
-            "recuerdame_id": ""
+            }
         }
         return sendByPassServlet(request)
     },
@@ -50,16 +46,13 @@ export default {
             "ByPass": "usuario",
             "Servicio": "usuarios",
             "Metodo": "GetLoginCRM",
-            "Tipo": "",
             "Entrada": {
                 "username": "",
                 "password": "",
                 "user_session_id": token,
                 "recordarUsuario": false
             },
-            "Id": token,
-            "URL": "",
-            "recuerdame_id": ""
+            "Id": token
         }
         return sendByPassServlet(request)
     },
@@ -68,11 +61,8 @@ export default {
             "ByPass": "usuario",
             "Servicio": "usuarios",
             "Metodo": "GetConfiguracionUsuario",
-            "Tipo": "",
             "Entrada": {"id": empl_code},
-            "Id": token,
-            "URL": "",
-            "recuerdame_id": ""
+            "Id": token
         }
         return sendByPassServlet(request)
     },
@@ -81,11 +71,8 @@ export default {
             "ByPass": "usuario",
             "Servicio": "menu",
             "Metodo": "GetMenu",
-            "Tipo": "",
             "Entrada": {"app": "CRM"},
-            "Id": token,
-            "URL": "",
-            "recuerdame_id": ""
+            "Id": token
         }
         return sendByPassServlet(request)
     }

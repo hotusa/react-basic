@@ -11,13 +11,15 @@
     "clsx": "latest",
     "i18next": "^19.0.0",
     "i18next-xhr-backend": "^3.2.2",
+    "node-sass": "^4.13.1",
     "prop-types": "latest",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-i18next": "^11.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
-    "recharts": "^2.0.0-beta.1"
+    "recharts": "^2.0.0-beta.1",
+    "typescript": "^3.8.2"
   },
   "scripts": {
     "start": "react-scripts start",

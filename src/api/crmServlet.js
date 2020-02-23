@@ -28,11 +28,8 @@ export default {
         let request = {
             "Servicio": "usuariosCrm",
             "Metodo": "GetUsuarioCrmByEmplCode",
-            "Tipo": "",
             "Entrada": {"empl_code": empl_code},
-            "Id": token,
-            "URL": "",
-            "recuerdame_id": ""
+            "Id": token
         }
         return sendCrmServlet(request)
     },
@@ -40,11 +37,8 @@ export default {
         let request = {
             "Servicio": "notificaciones",
             "Metodo": "GetNotificaciones",
-            "Tipo": "",
             "Entrada": entrada,
             "Id": token,
-            "URL": "",
-            "recuerdame_id": ""
         }
         return sendCrmServlet(request)
     },
@@ -52,11 +46,8 @@ export default {
         let request = {
             "Servicio": "actividades",
             "Metodo": "GetActividadesAlertas",
-            "Tipo": "",
             "Entrada": entrada,
-            "Id": token,
-            "URL": "",
-            "recuerdame_id": ""
+            "Id": token
         }
         return sendCrmServlet(request)
     }
