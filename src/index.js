@@ -9,8 +9,8 @@ import {MainAppProvider} from "./context";
 import NotFound from "./pages/NotFound";
 import Registro from "./pages/Registro";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import { createMuiTheme } from '@material-ui/core/styles';
-
+import {createMuiTheme} from '@material-ui/core/styles';
+import './index.scss'
 
 const theme = createMuiTheme({
     palette: {
@@ -46,20 +46,22 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-    <MainAppProvider>
-        <ThemeProvider theme={theme}>
-            <Suspense fallback={""}>
-                <HashRouter>
-                    <Switch>
-                        <Route exact path={"/Registro"} component={Registro}/>
-                        <Route exact path={"/Login"} component={Login}/>
-                        <Route exact path={"/404"} component={NotFound}/>
-                        <Route path={"/"} component={App}/>
-                    </Switch>
-                </HashRouter>
-            </Suspense>
-        </ThemeProvider>
-    </MainAppProvider>
+    <div className={localStorage.getItem("mode") === 'dark' ? 'dark_mode' : ''}>
+        <MainAppProvider>
+            <ThemeProvider theme={theme}>
+                <Suspense fallback={""}>
+                    <HashRouter>
+                        <Switch>
+                            <Route exact path={"/Registro"} component={Registro}/>
+                            <Route exact path={"/Login"} component={Login}/>
+                            <Route exact path={"/404"} component={NotFound}/>
+                            <Route path={"/"} component={App}/>
+                        </Switch>
+                    </HashRouter>
+                </Suspense>
+            </ThemeProvider>
+        </MainAppProvider>
+    </div>
     , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

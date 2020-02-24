@@ -1,5 +1,4 @@
 import React, {Suspense} from 'react';
-import './App.scss'
 import {HashRouter, Route, Switch} from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Container from "@material-ui/core/Container";
@@ -10,7 +9,6 @@ import Menu from "./components/Navigation/Menu";
 import withDataFetching from "./HOC";
 import Navigation from "./components/Navigation";
 import Profile from "./pages/Profile";
-
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -33,7 +31,7 @@ const App = (props) => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root + ' ' + localStorage.getItem("mode") !== 'dark' ? 'dark_mode' : ''}>
             <CssBaseline/>
             <Navigation {...props}/>
             <main className={classes.content}>
