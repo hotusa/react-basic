@@ -2,14 +2,14 @@ import React, {useContext, Suspense, lazy} from 'react';
 import './App.css'
 import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import Navbar from "./components/Navbar";
-import {MainAppContext} from "./context";
+import {MainContext} from "./context";
 
 const Home = lazy(() => import('./pages/Home'))
 const Examples = lazy(() => import('./pages/Examples'))
 
 function App() {
 
-    let {stateMainApp} = useContext(MainAppContext);
+    let {stateMainApp}:any = useContext(MainContext);
 
     return (
         <div className={`theme-${stateMainApp.color}`}>

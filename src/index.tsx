@@ -5,12 +5,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {HashRouter, Route, Switch} from "react-router-dom";
 import Login from "./pages/Login";
-import {MainAppProvider} from "./context";
+import {Provider} from "./context";
 import NotFound from "./pages/NotFound";
 
 
 ReactDOM.render(
-    <MainAppProvider>
+    <Provider>
         <Suspense fallback={""}>
             <HashRouter>
                 <Switch>
@@ -20,7 +20,7 @@ ReactDOM.render(
                 </Switch>
             </HashRouter>
         </Suspense>
-    </MainAppProvider>
+    </Provider>
     , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

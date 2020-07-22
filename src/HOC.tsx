@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useRef} from 'react'
-import {MainAppContext} from "./context";
+import {MainContext} from "./context";
 
-export default function withDataFetching(WrappedComponent) {
-    return function (props) {
+export default function withDataFetching(WrappedComponent:any) {
+    return function (props:any) {
 
-        let {dispatchMainApp} = useContext(MainAppContext);
+        let {dispatchMainApp}:any = useContext(MainContext);
 
         const unmount = useRef(false);
 

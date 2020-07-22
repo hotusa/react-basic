@@ -1,17 +1,17 @@
 import React, {useContext} from 'react'
-import {MainAppContext} from "../../context";
+import {MainContext} from "../../context";
 import {useTranslation} from "react-i18next";
 
 const Navbar = () => {
 
-    let {stateMainApp, dispatchMainApp} = useContext(MainAppContext);
+    let {stateMainApp, dispatchMainApp}:any = useContext(MainContext);
     const {t, i18n} = useTranslation();
 
-    const changeTheme = (theme) => {
+    const changeTheme = (theme:any) => {
         dispatchMainApp({type: "SET_COLOR", payload: theme});
     }
 
-    const changeLanguage = (lng) => {
+    const changeLanguage = (lng:any) => {
         i18n.changeLanguage(lng)
     }
 
