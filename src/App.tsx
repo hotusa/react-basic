@@ -4,8 +4,8 @@ import {HashRouter, Redirect, Route, Switch} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import {MainContext} from "./context";
 
-const Home = lazy(() => import('./pages/Home'))
-const Examples = lazy(() => import('./pages/Examples'))
+const Home = lazy(() => import('./views/Home'))
+const Examples = lazy(() => import('./views/Examples'))
 
 function App() {
 

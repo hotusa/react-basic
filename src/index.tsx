@@ -4,9 +4,9 @@ import './i18n';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {HashRouter, Route, Switch} from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./views/Login";
 import {Provider} from "./context";
-import NotFound from "./pages/NotFound";
+import NotFound from "./views/NotFound";
 
 
 ReactDOM.render(
